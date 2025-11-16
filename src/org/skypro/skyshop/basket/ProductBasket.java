@@ -38,15 +38,20 @@ public class ProductBasket {
 
     public void printInfoBasket() {
         System.out.println(getName());
+        int specialCount = 0;
         if  (size == 0) {
             System.out.println("Product Basket is null");
             return;
         }
         for (int i = 0; i < size; i++) {
             Product product = productBasket[i];
-            System.out.println(" Название продукта " + product.getName() + ": " + product.getPrice() + " стоимостью ");
+            System.out.println(product.toString());
+            if (product.isSpecial()) {
+                specialCount++;
+            }
         }
         System.out.println("Итого : " + getTotalPrice());
+        System.out.println(" Специальных товаров: " + specialCount);
     }
 
     public boolean hasProduct(String name) {

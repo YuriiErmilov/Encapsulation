@@ -21,10 +21,6 @@ public abstract class Product implements Searchable {
         return name;
     }
 
-    public String getNameValue(){
-        return name;
-    }
-
     public abstract int getPrice();
 
 

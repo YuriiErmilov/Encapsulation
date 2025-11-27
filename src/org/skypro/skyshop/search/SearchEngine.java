@@ -34,18 +34,10 @@ public class SearchEngine {
 
     public Searchable findBestMatch(String search) throws BestResultNotFoundException {
         if  (search == null || search.isEmpty()){
-            try {
-                throw new BestResultNotFoundException(" Пусой поисковой запрос! ");
-            } catch (BestResultNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            throw new BestResultNotFoundException(" Пусой поисковой запрос! ");
         }
-        if (size == 0){
-            try {
-                throw new BestResultNotFoundException(" Нет данных для поиска " + search);
-            } catch (BestResultNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+        if (size == 0) {
+            throw new BestResultNotFoundException(" Нет данных для поиска " + search);
         }
 
         String searchLower = search.toLowerCase();
@@ -60,11 +52,7 @@ public class SearchEngine {
             }
         }
         if (best == null || bestCount == 0) {
-            try {
-                throw new BestResultNotFoundException(" Не найден результат для поискового запроса " + search);
-            } catch (BestResultNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            throw new BestResultNotFoundException(" Не найден результат для поискового запроса " + search);
         }
         return best;
     }

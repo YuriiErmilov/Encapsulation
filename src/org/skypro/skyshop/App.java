@@ -8,7 +8,7 @@ import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.SearchEngine;
 import org.skypro.skyshop.search.Searchable;
 
-import java.sql.SQLOutput;
+import org.skypro.skyshop.exception.BestResultNotFoundException;
 
 public class App {
     public static void main(String[] args) {
@@ -17,6 +17,7 @@ public class App {
         Product hookah = new DiscountProduct("Кальян: Alpha Hookah", 12000,15);
         Product theFlask = new SimpleProduct("Колба", 1500);
         Product forceps = new FixPriceProduct("Щипцы ");
+
 
         basket.addProduct(hookah);
         basket.addProduct(theFlask);
@@ -53,6 +54,23 @@ public class App {
         System.out.println(" Ищем товар который есть в корзине: " + basket.hasProduct("Кальян: Alpha Hookah"));
 
         System.out.println(" Ищем товар которого нет в корзине: " + basket.hasProduct("Mashave"));
+
+
+        System.out.println(" Проверяем findBestMatch");
+
+        try {
+            Searchable best = engine.findBestMatch("Кальян");
+            System.out.println(" ЛУчший результат по поиску 'Кальян' : " + best.getStringRepresentation());
+        } catch (BestResultNotFoundException e) {
+            System.out.println(" Error " + e.getMessage());
+        }
+
+        try {
+            Searchable best1 = engine.findBestMatch(" Ленолиум ");
+            System.out.println(" ЛУчший результат по поиску 'Кальян' : " + best1.getStringRepresentation());
+        } catch (BestResultNotFoundException e) {
+            System.out.println(" Error " + e.getMessage());
+        }
 
         basket.cleatBasket();
 

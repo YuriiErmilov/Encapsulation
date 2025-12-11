@@ -6,6 +6,9 @@ public class DiscountProduct extends Product {
 
     public DiscountProduct(String name, int price, int discount) {
         super(name);
+        if (discount <= 0 || discount > 100) {
+            throw new IllegalArgumentException("Discount must be between 0 and 100");
+        }
         this.basePrice = price;
         this.discount = discount;
     }

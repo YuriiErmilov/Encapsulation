@@ -1,32 +1,27 @@
 package org.skypro.skyshop.search;
 import org.skypro.skyshop.exception.BestResultNotFoundException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchEngine {
-    private final Searchable[] items;
-    private int size;
+    private final List<Searchable> items = new ArrayList<>();
 
-    public SearchEngine(int capacity) {
-        items = new Searchable[capacity];
-        size = 0;
-    }
     public void add(Searchable item){
-        if (item == null || size == items.length) {
-            return;
+        if (item != null) {
+            items.add(item);
         }
-        items[size] = item;
-        size++;
     }
 
-    public Searchable[] search(String query){
-        Searchable[] results = new Searchable[5];
-        int found = 0;
-        for (int i = 0; i < size; i++) {
-            if (items[i].getSearchTerm().toLowerCase().contains(query.toLowerCase())) {
-                results[found] = items[i];
-                found++;
-                if (found == 5) {
-                    break;
-                }
+    public List<Searchable> search(String query){
+        List<Searchable> results = new ArrayList<>();
+        if (query == null || query.isEmpty()){
+                return results;
+        }
+        String lowerQuery = query.toLowerCase();
+        for (Searchable item : items) {
+            if (item.getSearchTerm().toLowerCase().contains(lowerQuery)) {
+                results.add(item);
             }
         }
         return results;
@@ -36,22 +31,17 @@ public class SearchEngine {
         if  (search == null || search.isEmpty()){
             throw new BestResultNotFoundException(" Пусой поисковой запрос! ");
         }
-        if (size == 0) {
-            throw new BestResultNotFoundException(" Нет данных для поиска " + search);
-        }
-
         String searchLower = search.toLowerCase();
         Searchable best = null;
         int bestCount = 0;
-        for (int i = 0; i < size; i++) {
-            String term = items[i].getSearchTerm().toLowerCase();
-            int count = countOccurrences(term, searchLower);
+        for (Searchable item : items) {
+            int count = countOccurrences(item.getSearchTerm().toLowerCase(), searchLower);
             if (count > bestCount) {
                 bestCount = count;
-                best = items[i];
+                best = item;
             }
         }
-        if (best == null || bestCount == 0) {
+        if (best == null) {
             throw new BestResultNotFoundException(" Не найден результат для поискового запроса " + search);
         }
         return best;
@@ -65,4 +55,5 @@ public class SearchEngine {
         }
         return count;
     }
+
 }

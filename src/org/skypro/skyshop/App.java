@@ -10,6 +10,8 @@ import org.skypro.skyshop.search.Searchable;
 
 import org.skypro.skyshop.exception.BestResultNotFoundException;
 
+import java.util.List;
+
 public class App {
 
     public static void main(String[] args) {
@@ -17,7 +19,7 @@ public class App {
 
         Product hookah = new DiscountProduct("Кальян: Alpha Hookah", 12000,15);
         Product theFlask = new SimpleProduct("Колба", 1500);
-        Product forceps = new FixPriceProduct("Щипцы ");
+        Product forceps = new FixPriceProduct("Щипцы");
 
 
         basket.addProduct(hookah);
@@ -26,7 +28,7 @@ public class App {
 
         basket.printInfoBasket();
 
-        SearchEngine engine = new SearchEngine(10);
+        SearchEngine engine = new SearchEngine();
 
         engine.add(hookah);
         engine.add(theFlask);
@@ -73,9 +75,30 @@ public class App {
             System.out.println(" Error " + e.getMessage());
         }
 
-        basket.cleatBasket();
+        basket.printInfoBasket();
+
+        System.out.println("Удаляем существующий продукт");
+        List<Product> removed = basket.removeProductsByName("Колба");
+
+        if (removed.isEmpty()) {
+            System.out.println("Список пуст");
+        } else {
+            for (Product p : removed) {
+                System.out.println("Удален: " + p);
+            }
+        }
+        basket.printInfoBasket();
+
+        System.out.println("Удаляем несуществующий товар");
+        List<Product> removed2 = basket.removeProductsByName("Дудка");
+        if (removed2.isEmpty()) {
+            System.out.println("Список пуст");
+        }
 
         basket.printInfoBasket();
+
+        basket.cleatBasket();
+
 
         System.out.println(" Общая стоимость корзины: " + basket.getTotalPrice());
 
@@ -84,11 +107,13 @@ public class App {
 
     }
 
-    private static void printResult(Searchable[] search) {
+    private static void printResult(List<Searchable> search) {
+        if (search.isEmpty()) {
+            System.out.println(" Ничего не найдено ");
+            return;
+        }
         for (Searchable s : search) {
-            if(s != null){
-                System.out.println(s.getStringRepresentation());
-            }
+            System.out.println(s.getStringRepresentation());
         }
     }
 }

@@ -2,15 +2,16 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProductBasket {
     private final String name;
-    private final Product [] productBasket;
-    private int size;
+    private final List<Product> products;
 
     public ProductBasket(String name) {
         this.name = name;
-        productBasket = new Product[5];
-        size = 0;
+        this.products = new ArrayList<>();
     }
 
     public String getName() {
@@ -20,18 +21,13 @@ public class ProductBasket {
         if (product == null) {
             return;
         }
-        if (size >= productBasket.length) {
-            System.out.println(" Корзина переполнена ");
-            return;
-        }
-        productBasket[size] = product;
-        size++;
+        products.add(product);
     }
 
     public int getTotalPrice() {
         int totalPrice = 0;
-        for (int i = 0; i < size; i++) {
-            totalPrice += productBasket[i].getPrice();
+        for (Product product : products) {
+            totalPrice += product.getPrice();
         }
         return totalPrice;
     }
@@ -39,13 +35,12 @@ public class ProductBasket {
     public void printInfoBasket() {
         System.out.println(getName());
         int specialCount = 0;
-        if  (size == 0) {
+        if  (products.isEmpty()) {
             System.out.println("Product Basket is null");
             return;
         }
-        for (int i = 0; i < size; i++) {
-            Product product = productBasket[i];
-            System.out.println(product.toString());
+        for (Product product : products) {
+            System.out.println(product);
             if (product.isSpecial()) {
                 specialCount++;
             }
@@ -55,11 +50,10 @@ public class ProductBasket {
     }
 
     public boolean hasProduct(String name) {
-        if (name == null || size == 0) {
+        if (name == null) {
             return false;
         }
-        for (int i = 0; i < size; i++) {
-            Product product = productBasket[i];
+        for (Product product : products) {
             if ( product.getName().equalsIgnoreCase(name) ) {
                 return true;
             }
@@ -68,10 +62,21 @@ public class ProductBasket {
     }
 
     public void cleatBasket() {
-        for (int i = 0; i < size; i++) {
-            productBasket[i] = null;
-        }
-        size = 0;
+        products.clear();
     }
 
+    public List<Product> removeProductsByName(String name) {
+        List<Product> removed = new ArrayList<>();
+        if(name == null) {
+        return removed;
+    }
+        for (int i = products.size() - 1; i >= 0; i--) {
+            Product product = products.get(i);
+            if (product.getName().equalsIgnoreCase(name)) {
+                removed.add(product);
+                products.remove(i);
+            }
+        }
+        return removed;
+    }
 }

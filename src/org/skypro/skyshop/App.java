@@ -11,6 +11,7 @@ import org.skypro.skyshop.search.Searchable;
 import org.skypro.skyshop.exception.BestResultNotFoundException;
 
 public class App {
+
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket("Anton");
 

@@ -2,6 +2,7 @@ package org.skypro.skyshop.search;
 import org.skypro.skyshop.exception.BestResultNotFoundException;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SearchEngine {
@@ -14,8 +15,8 @@ public class SearchEngine {
     }
 
     public List<Searchable> search(String query){
-        List<Searchable> results = new ArrayList<>();
-        if (query == null || query.isEmpty()){
+        List<Searchable> results = new LinkedList<>();
+        if (query == null || query.isBlank()){
                 return results;
         }
         String lowerQuery = query.toLowerCase();

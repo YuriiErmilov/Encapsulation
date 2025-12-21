@@ -61,7 +61,6 @@ public class App {
         engine.add(a1);
         engine.add(a2);
         engine.add(a3);
-
         System.out.println("Поиск кальян");
         Map<String, Searchable> results = engine.search("кальян");
         results.values().forEach(r -> System.out.println(r.getStringRepresentation()));
@@ -100,15 +99,5 @@ public class App {
         System.out.println(" Ищем товар который есть в корзине: " + basket.hasProduct("Кальян: Alpha Hookah"));
 
 
-    }
-
-    private static void printResult(List<Searchable> search) {
-        if (search.isEmpty()) {
-            System.out.println(" Ничего не найдено ");
-            return;
-        }
-        for (Searchable s : search) {
-            System.out.println(s.getStringRepresentation());
-        }
     }
 }

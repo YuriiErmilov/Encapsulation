@@ -51,7 +51,7 @@ public class ProductBasket {
         for (List<Product> productList : products.values()) {
             for (Product product : productList) {
                 System.out.println(product);
-                if (specialCount == 0) {
+                if (product.isSpecial()) {
                     specialCount++;
                 }
             }

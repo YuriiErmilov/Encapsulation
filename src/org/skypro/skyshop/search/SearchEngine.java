@@ -26,6 +26,7 @@ public class SearchEngine {
             return results;
         }
 
+
         public Searchable findBestMatch(String search) throws BestResultNotFoundException {
             if (search == null || search.isBlank()) {
                 throw new BestResultNotFoundException("Пустой поисковой запрос!");

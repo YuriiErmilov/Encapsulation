@@ -11,6 +11,7 @@ import org.skypro.skyshop.search.Searchable;
 import org.skypro.skyshop.exception.BestResultNotFoundException;
 
 import java.util.List;
+import java.util.Map;
 
 public class App {
 
@@ -25,8 +26,27 @@ public class App {
         basket.addProduct(hookah);
         basket.addProduct(theFlask);
         basket.addProduct(forceps);
+        basket.addProduct(theFlask);
 
         basket.printInfoBasket();
+
+        System.out.println("Удаляем существующий продукт");
+        List<Product> removed = basket.removeProductsByName("Колба");
+
+        if (removed.isEmpty()) {
+            System.out.println("Список пуст");
+        } else {
+            for (Product p : removed) {
+                System.out.println("Удален: " + p);
+            }
+        }
+        basket.printInfoBasket();
+
+        System.out.println("Удаляем несуществующий товар");
+        List<Product> removed2 = basket.removeProductsByName("Дудка");
+        if (removed2.isEmpty()) {
+            System.out.println("Список пуст");
+        }
 
         SearchEngine engine = new SearchEngine();
 
@@ -41,16 +61,9 @@ public class App {
         engine.add(a1);
         engine.add(a2);
         engine.add(a3);
-
         System.out.println("Поиск кальян");
-        printResult(engine.search("кальян"));
-
-        System.out.println("Поиск акция");
-        printResult(engine.search("акция"));
-
-        System.out.println("Поиск колбы");
-        printResult(engine.search("колба"));
-
+        Map<String, Searchable> results = engine.search("кальян");
+        results.values().forEach(r -> System.out.println(r.getStringRepresentation()));
 
         System.out.println(" Общая стоимость корзины: " + basket.getTotalPrice());
 
@@ -75,25 +88,6 @@ public class App {
             System.out.println(" Error " + e.getMessage());
         }
 
-        basket.printInfoBasket();
-
-        System.out.println("Удаляем существующий продукт");
-        List<Product> removed = basket.removeProductsByName("Колба");
-
-        if (removed.isEmpty()) {
-            System.out.println("Список пуст");
-        } else {
-            for (Product p : removed) {
-                System.out.println("Удален: " + p);
-            }
-        }
-        basket.printInfoBasket();
-
-        System.out.println("Удаляем несуществующий товар");
-        List<Product> removed2 = basket.removeProductsByName("Дудка");
-        if (removed2.isEmpty()) {
-            System.out.println("Список пуст");
-        }
 
         basket.printInfoBasket();
 
@@ -105,15 +99,5 @@ public class App {
         System.out.println(" Ищем товар который есть в корзине: " + basket.hasProduct("Кальян: Alpha Hookah"));
 
 
-    }
-
-    private static void printResult(List<Searchable> search) {
-        if (search.isEmpty()) {
-            System.out.println(" Ничего не найдено ");
-            return;
-        }
-        for (Searchable s : search) {
-            System.out.println(s.getStringRepresentation());
-        }
     }
 }

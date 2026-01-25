@@ -10,12 +10,13 @@ import org.skypro.skyshop.search.Searchable;
 
 import org.skypro.skyshop.exception.BestResultNotFoundException;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class App {
-
     public static void main(String[] args) {
+
+
+
         ProductBasket basket = new ProductBasket("Anton");
 
         Product hookah = new DiscountProduct("Кальян: Alpha Hookah", 12000,15);
@@ -62,8 +63,8 @@ public class App {
         engine.add(a2);
         engine.add(a3);
         System.out.println("Поиск кальян");
-        Map<String, Searchable> results = engine.search("кальян");
-        results.values().forEach(r -> System.out.println(r.getStringRepresentation()));
+        Set<Searchable> results = engine.search("кальян");
+        results.forEach(r -> System.out.println(r.getStringRepresentation()));
 
         System.out.println(" Общая стоимость корзины: " + basket.getTotalPrice());
 

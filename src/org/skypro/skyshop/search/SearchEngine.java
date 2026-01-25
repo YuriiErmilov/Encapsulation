@@ -4,7 +4,7 @@ import org.skypro.skyshop.exception.BestResultNotFoundException;
 import java.util.*;
 
 public class SearchEngine {
-    private final List<Searchable> items = new LinkedList<>();
+    private final Set<Searchable> items = new HashSet<>();
 
         public void add(Searchable item) {
             if (item != null) {
@@ -12,15 +12,25 @@ public class SearchEngine {
             }
         }
 
-        public Map<String, Searchable> search(String query) {
-            Map<String, Searchable> results = new TreeMap<>();
+        public Set<Searchable> search(String query) {
+            Comparator<Searchable> lengthComparator = new Comparator<Searchable>() {
+                @Override
+                public int compare(Searchable o1, Searchable o2) {
+                    int lengthCompare = Integer.compare(o2.getName().length(),o1.getName().length());
+                    if (lengthCompare != 0) {
+                        return lengthCompare;
+                    }
+                    return o1.getName().compareTo(o2.getName());
+                }
+            };
+            Set<Searchable> results = new TreeSet<>(lengthComparator);
             if (query == null || query.isBlank()) {
                 return results;
             }
             String lowerQuery = query.toLowerCase();
             for (Searchable item : items) {
                 if (item.getSearchTerm().toLowerCase().contains(lowerQuery)) {
-                    results.put(item.getName(), item);
+                    results.add(item);
                 }
             }
             return results;

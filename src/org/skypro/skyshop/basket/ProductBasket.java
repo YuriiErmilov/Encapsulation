@@ -32,32 +32,22 @@ public class ProductBasket {
     }
 
     public int getTotalPrice() {
-        int totalPrice = 0;
-        for (List<Product> productList : products.values()) {
-            for (Product product : productList) {
-                totalPrice += product.getPrice();
-            }
-        }
-        return totalPrice;
+        return products.values().stream().flatMap(Collection::stream).mapToInt(Product::getPrice).sum();
     }
 
     public void printInfoBasket() {
         System.out.println(getName());
-        int specialCount = 0;
         if (products.isEmpty()) {
             System.out.println("Product Basket is null");
             return;
         }
-        for (List<Product> productList : products.values()) {
-            for (Product product : productList) {
-                System.out.println(product);
-                if (product.isSpecial()) {
-                    specialCount++;
-                }
-            }
-        }
+       products.values().stream().flatMap(Collection::stream).forEach(System.out::println);
         System.out.println("Итого : " + getTotalPrice());
-        System.out.println(" Специальных товаров: " + specialCount);
+        System.out.println(" Специальных товаров: " + getSpecialCount());
+    }
+
+    private long getSpecialCount() {
+        return products.values().stream().flatMap(Collection::stream).filter(Product::isSpecial).count();
     }
 
     public String getName() {
